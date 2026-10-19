@@ -28,6 +28,7 @@
   const $ = (selector) => document.querySelector(selector);
   const state = loadState();
   let selectedDate = localISODate();
+  let periodMode = 'day';
   let selectedFood = catalog.find((food) => food.id === 'oatmeal');
   let customMode = false;
   let activeView = 'today';
@@ -66,6 +67,32 @@
     return new Intl.DateTimeFormat('ru-RU', { timeZone: 'UTC', ...options }).format(new Date(`${date}T12:00:00Z`));
   }
   function dayEntries(date = selectedDate) { return state.entries.filter((entry) => entry.date === date); }
+  function periodRange() {
+    const [year, month] = selectedDate.split('-').map(Number);
+    if (periodMode === 'year') return { start: `${year}-01-01`, end: `${year}-12-31` };
+    if (periodMode === 'month') return { start: `${year}-${String(month).padStart(2, '0')}-01`, end: localISODate(new Date(year, month, 0, 12)) };
+    return { start: selectedDate, end: selectedDate };
+  }
+  function periodEntries() {
+    const { start, end } = periodRange();
+    return state.entries.filter((entry) => entry.date >= start && entry.date <= end);
+  }
+  function periodName() { return periodMode === 'year' ? 'за год' : periodMode === 'month' ? 'за месяц' : 'за день'; }
+  function periodLabel() {
+    if (periodMode === 'year') return selectedDate.slice(0, 4);
+    if (periodMode === 'month') return displayDate(selectedDate, { month: 'long', year: 'numeric' });
+    return displayDate(selectedDate, { day: 'numeric', month: 'short' });
+  }
+  function changeDate(date, amount, unit) {
+    const current = new Date(`${date}T12:00:00`);
+    if (unit === 'day') { current.setDate(current.getDate() + amount); return localISODate(current); }
+    const year = current.getFullYear() + (unit === 'year' ? amount : 0);
+    const month = current.getMonth() + (unit === 'month' ? amount : 0);
+    const first = new Date(year, month, 1, 12);
+    const day = Math.min(current.getDate(), new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate());
+    first.setDate(day);
+    return localISODate(first);
+  }
   function total(entries, key) {
     if (!entries.length) return 0;
     if (entries.some((entry) => entry[key] == null)) return null;
@@ -80,14 +107,49 @@
     noticeTimer = setTimeout(() => { notice.hidden = true; }, 4200);
   }
   function renderDate() {
-    $('#date-label').textContent = displayDate(selectedDate, { weekday: 'long', day: 'numeric', month: 'long' });
-    $('#date-short').textContent = displayDate(selectedDate, { day: 'numeric', month: 'short' });
+    $('#date-label').textContent = periodMode === 'day'
+      ? displayDate(selectedDate, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+      : periodLabel();
+    $('#date-short').textContent = periodLabel();
     $('#date-picker').value = selectedDate;
+    $('#month-picker').value = selectedDate.slice(0, 7);
+    $('#year-picker').value = selectedDate.slice(0, 4);
+    $('#date-picker').hidden = periodMode !== 'day';
+    $('#month-picker').hidden = periodMode !== 'month';
+    $('#year-picker').hidden = periodMode !== 'year';
+    $('#prev-day').setAttribute('aria-label', `Предыдущий ${periodMode === 'year' ? 'год' : periodMode === 'month' ? 'месяц' : 'день'}`);
+    $('#next-day').setAttribute('aria-label', `Следующий ${periodMode === 'year' ? 'год' : periodMode === 'month' ? 'месяц' : 'день'}`);
+    document.querySelectorAll('.period-option').forEach((button) => {
+      const active = button.dataset.period === periodMode;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    const range = periodRange();
+    $('#period-hint').textContent = periodMode === 'day'
+      ? 'Выбран один день'
+      : periodMode === 'month'
+        ? `${displayDate(range.start, { day: 'numeric', month: 'long' })} — ${displayDate(range.end, { day: 'numeric', month: 'long' })}`
+        : `С 1 января по 31 декабря ${selectedDate.slice(0, 4)}`;
+    $('#entry-date').value = selectedDate;
+    $('#entry-date-wrap').hidden = periodMode === 'day';
+    $('.entry-controls').classList.toggle('has-period-date', periodMode !== 'day');
+    $('#summary-kicker').textContent = periodMode === 'day' && selectedDate === localISODate() ? 'СЕГОДНЯ' : periodMode === 'day' ? 'ВЫБРАННАЯ ДАТА' : periodMode === 'month' ? 'ВЫБРАННЫЙ МЕСЯЦ' : 'ВЫБРАННЫЙ ГОД';
+    $('#summary-title').textContent = periodMode === 'year' ? 'Итоги года' : periodMode === 'month' ? 'Итоги месяца' : 'Итоги дня';
+    $('#summary-description').innerHTML = periodMode === 'day' ? 'Калории и нутриенты<br>за выбранную дату' : periodMode === 'month' ? 'Калории и нутриенты<br>за выбранный месяц' : 'Калории и нутриенты<br>за выбранный год';
+    $('#diary-title').innerHTML = periodMode === 'day' ? 'Дневник<br><em>питания</em>' : periodMode === 'month' ? 'Записи<br><em>месяца</em>' : 'Записи<br><em>года</em>';
+    $('.diary-intro > p').textContent = periodMode === 'day'
+      ? 'Добавьте продукт и задайте порцию. Итоги обновятся для выбранного дня.'
+      : `Просматривайте записи ${periodMode === 'month' ? 'за месяц' : 'за год'} и добавляйте еду на выбранную дату.`;
+    $('.subtitle').textContent = activeView === 'history'
+      ? `История питания ${periodMode === 'day' ? 'по дням' : periodMode === 'month' ? 'за выбранный месяц' : 'за выбранный год'}.`
+      : 'Ваш дневник питания — записи и итоги на одном экране.';
     const today = localISODate();
-    $('#page-title').innerHTML = selectedDate === today ? 'Добрый день<span class="title-comma">,</span>' : displayDate(selectedDate, { day: 'numeric', month: 'long' });
+    $('#page-title').innerHTML = periodMode === 'day' && selectedDate === today
+      ? 'Добрый день<span class="title-comma">,</span>'
+      : periodMode === 'day' ? displayDate(selectedDate, { day: 'numeric', month: 'long' }) : periodLabel();
   }
   function renderSummary() {
-    const entries = dayEntries();
+    const entries = periodEntries();
     const kcal = total(entries, 'kcal');
     const protein = total(entries, 'protein');
     const fat = total(entries, 'fat');
@@ -97,19 +159,25 @@
     $('#total-fat').textContent = `${number(fat)} г`;
     $('#total-carbs').textContent = `${number(carbs)} г`;
     $('#entry-count').textContent = String(entries.length);
-    $('#goal-caption').textContent = state.goal ? `из ${number(state.goal, 0)} ккал` : 'Дневная цель не задана';
-    $('#goal-remaining').textContent = state.goal && kcal != null ? `Осталось ${number(Math.max(0, state.goal - kcal), 0)}` : 'Укажите цель ниже';
-    $('#goal-progress').style.width = state.goal && kcal != null ? `${Math.min(100, kcal / state.goal * 100)}%` : '0%';
+    if (periodMode === 'day') {
+      $('#goal-caption').textContent = state.goal ? `из ${number(state.goal, 0)} ккал` : 'Дневная цель не задана';
+      $('#goal-remaining').textContent = state.goal && kcal != null ? `Осталось ${number(Math.max(0, state.goal - kcal), 0)}` : 'Укажите цель ниже';
+      $('#goal-progress').style.width = state.goal && kcal != null ? `${Math.min(100, kcal / state.goal * 100)}%` : '0%';
+    } else {
+      const loggedDays = new Set(entries.map((entry) => entry.date)).size;
+      const average = kcal != null && loggedDays ? kcal / loggedDays : null;
+      $('#goal-caption').textContent = state.goal ? `Цель в день: ${number(state.goal, 0)} ккал` : `Всего ${periodName()}`;
+      $('#goal-remaining').textContent = state.goal && average != null ? `Среднее ${number(average, 0)} ккал / день` : state.goal ? 'Пока нет записей' : `${loggedDays} ${loggedDays === 1 ? 'день с записями' : 'дней с записями'}`;
+      $('#goal-progress').style.width = state.goal && average != null ? `${Math.min(100, average / state.goal * 100)}%` : '0%';
+    }
     $('#goal-input').value = state.goal || '';
   }
   function renderMeals() {
     const host = $('#meal-list');
     host.replaceChildren();
-    Object.entries(mealNames).forEach(([type, name]) => {
-      const entries = dayEntries().filter((entry) => entry.meal === type);
+    const renderMealCard = (type, name, entries) => {
       const card = document.createElement('article');
       card.className = `meal-card meal-${type}`;
-      const icon = document.createElement('div'); icon.className = 'meal-icon'; icon.textContent = mealIcons[type];
       const meta = document.createElement('div'); meta.className = 'meal-meta';
       meta.innerHTML = `<b>${name}</b><small>${entries.length ? `${entries.length} ${entries.length === 1 ? 'запись' : 'записей'}` : 'По выбранной дате'}</small>`;
       const items = document.createElement('div'); items.className = 'meal-items';
@@ -125,22 +193,72 @@
       const subtotal = document.createElement('div'); subtotal.className = 'meal-total'; subtotal.innerHTML = `${number(mealKcal, 0)} <small>ккал</small>`;
       const add = document.createElement('button'); add.type = 'button'; add.className = 'meal-add'; add.setAttribute('aria-label', `Добавить в ${name}`); add.textContent = '+';
       add.addEventListener('click', () => { $('#meal-select').value = type; $('#add-panel').hidden = false; $('#food-search').focus(); });
-      card.append(icon, meta, items, subtotal, add); host.append(card);
+      card.append(meta, items, subtotal, add);
+      return card;
+    };
+    const entries = periodEntries();
+    if (periodMode === 'day') {
+      Object.entries(mealNames).forEach(([type, name]) => host.append(renderMealCard(type, name, entries.filter((entry) => entry.meal === type))));
+      return;
+    }
+    if (!entries.length) {
+      const empty = document.createElement('p'); empty.className = 'period-empty';
+      empty.textContent = `В этом ${periodMode === 'month' ? 'месяце' : 'году'} пока нет записей.`; host.append(empty); return;
+    }
+    const byDate = new Map();
+    entries.sort((a, b) => b.date.localeCompare(a.date)).forEach((entry) => {
+      if (!byDate.has(entry.date)) byDate.set(entry.date, []);
+      byDate.get(entry.date).push(entry);
+    });
+    byDate.forEach((day, date) => {
+      const heading = document.createElement('div'); heading.className = 'diary-date-heading';
+      const title = document.createElement('strong'); title.textContent = displayDate(date, { weekday: 'long', day: 'numeric', month: 'long' });
+      const dayKcal = document.createElement('span'); dayKcal.textContent = `${number(total(day, 'kcal'), 0)} ккал`;
+      heading.append(title, dayKcal); host.append(heading);
+      Object.entries(mealNames).forEach(([type, name]) => {
+        const mealEntries = day.filter((entry) => entry.meal === type);
+        if (mealEntries.length) host.append(renderMealCard(type, name, mealEntries));
+      });
     });
   }
   function renderHistory() {
     const host = $('#history-chart'); host.replaceChildren();
-    const days = Array.from({ length: 7 }, (_, index) => {
-      const day = new Date(`${selectedDate}T12:00:00`); day.setDate(day.getDate() - (6 - index)); return localISODate(day);
-    });
-    const values = days.map((date) => ({ date, kcal: total(dayEntries(date), 'kcal') }));
+    let buckets;
+    if (periodMode === 'year') {
+      const year = Number(selectedDate.slice(0, 4));
+      buckets = Array.from({ length: 12 }, (_, index) => {
+        const start = `${year}-${String(index + 1).padStart(2, '0')}-01`;
+        const end = localISODate(new Date(year, index + 1, 0, 12));
+        return { start, end, label: displayDate(start, { month: 'short' }) };
+      });
+      $('#history-title').textContent = `История за ${year} год`;
+      $('#history-description').textContent = 'Калорийность по месяцам выбранного года.';
+    } else if (periodMode === 'month') {
+      const { start, end } = periodRange();
+      const first = new Date(`${start}T12:00:00`); const last = new Date(`${end}T12:00:00`);
+      buckets = Array.from({ length: last.getDate() }, (_, index) => {
+        const date = new Date(first); date.setDate(index + 1); const key = localISODate(date);
+        return { start: key, end: key, label: String(index + 1) };
+      });
+      $('#history-title').textContent = `История за ${periodLabel()}`;
+      $('#history-description').textContent = 'Калорийность по дням выбранного месяца.';
+    } else {
+      buckets = Array.from({ length: 7 }, (_, index) => {
+        const date = changeDate(selectedDate, index - 6, 'day');
+        return { start: date, end: date, label: displayDate(date, { weekday: 'short' }) };
+      });
+      $('#history-title').textContent = 'Последние 7 дней';
+      $('#history-description').textContent = `Калорийность за неделю до ${periodLabel()}.`;
+    }
+    host.classList.toggle('dense', periodMode === 'month');
+    const values = buckets.map((bucket) => ({ ...bucket, kcal: total(state.entries.filter((entry) => entry.date >= bucket.start && entry.date <= bucket.end), 'kcal') }));
     const max = Math.max(state.goal || 0, ...values.map((item) => item.kcal || 0), 500);
-    values.forEach(({ date, kcal }) => {
+    values.forEach(({ label: text, kcal }) => {
       const column = document.createElement('div'); column.className = 'chart-column';
       const value = document.createElement('span'); value.className = 'chart-value'; value.textContent = kcal == null || kcal === 0 ? '—' : number(kcal, 0);
       const track = document.createElement('div'); track.className = 'chart-bar-track';
       const bar = document.createElement('i'); bar.className = 'chart-bar'; bar.style.height = kcal ? `${Math.max(4, Math.min(100, kcal / max * 100))}%` : '3px'; track.append(bar);
-      const label = document.createElement('small'); label.textContent = displayDate(date, { weekday: 'short' });
+      const label = document.createElement('small'); label.textContent = text;
       column.append(value, track, label); host.append(column);
     });
   }
@@ -193,7 +311,8 @@
       state.customFoods.unshift(food);
     }
     if (!food) return;
-    state.entries.push({ id: crypto.randomUUID(), date: selectedDate, meal: $('#meal-select').value, name: food.name, grams, custom: customMode, kcal: scale(food.kcal, grams), protein: scale(food.protein, grams), fat: scale(food.fat, grams), carbs: scale(food.carbs, grams) });
+    const entryDate = $('#entry-date').value || selectedDate;
+    state.entries.push({ id: crypto.randomUUID(), date: entryDate, meal: $('#meal-select').value, name: food.name, grams, custom: customMode, kcal: scale(food.kcal, grams), protein: scale(food.protein, grams), fat: scale(food.fat, grams), carbs: scale(food.carbs, grams) });
     persist(); renderAll(); renderFoodResults($('#food-search').value); $('#entry-grams').value = '100';
     if (customMode) { $('#custom-name').value = ''; $('#custom-kcal').value = ''; $('#custom-protein').value = ''; $('#custom-fat').value = ''; $('#custom-carbs').value = ''; }
     $('#add-panel').hidden = true; showNotice('Запись добавлена и сохранена в этом браузере.');
@@ -211,7 +330,10 @@
     if (goal != null && (!Number.isFinite(goal) || goal < 1 || goal > 10000)) { showNotice('Укажите цель от 1 до 10000 ккал.', true); return; }
     state.goal = goal; persist(); renderSummary(); showNotice(goal ? 'Дневная цель сохранена.' : 'Дневная цель очищена.');
   }
-  function setDate(date) { if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return; selectedDate = date; renderAll(); }
+  function setDate(date) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(new Date(`${date}T12:00:00`).getTime())) return;
+    selectedDate = date; renderAll();
+  }
   function exportBackup() {
     const mealOrder = Object.keys(mealNames);
     const entries = [...state.entries].sort((a, b) => b.date.localeCompare(a.date) || mealOrder.indexOf(a.meal) - mealOrder.indexOf(b.meal));
@@ -259,9 +381,12 @@
     document.querySelectorAll('.nav-item').forEach((item) => item.classList.toggle('active', item.dataset.view === view));
     $('#history-section').hidden = view !== 'history';
     $('#crumb-title').textContent = view === 'today' ? 'Мой день' : 'История';
-    $('#page-title').innerHTML = view === 'today' ? (selectedDate === localISODate() ? 'Добрый день<span class="title-comma">,</span>' : displayDate(selectedDate, { day: 'numeric', month: 'long' })) : 'Ваша история<span class="title-comma">.</span>';
     $('#date-label').parentElement.hidden = view === 'history';
-    document.querySelector('.subtitle').textContent = view === 'today' ? 'Ваш дневник питания — записи и итоги на одном экране.' : 'Последние 7 дней с калорийностью по каждой дате.';
+    if (view === 'today') renderDate();
+    else {
+      $('#page-title').innerHTML = 'Ваша история<span class="title-comma">.</span>';
+      $('.subtitle').textContent = `История питания ${periodMode === 'day' ? 'по дням' : periodMode === 'month' ? 'за выбранный месяц' : 'за выбранный год'}.`;
+    }
     if (view === 'history') renderHistory();
   }
 
@@ -278,9 +403,26 @@
   });
   $('#entry-form').addEventListener('submit', saveEntry);
   $('#goal-form').addEventListener('submit', saveGoal);
-  $('#prev-day').addEventListener('click', () => { const date = new Date(`${selectedDate}T12:00:00`); date.setDate(date.getDate() - 1); setDate(localISODate(date)); });
-  $('#next-day').addEventListener('click', () => { const date = new Date(`${selectedDate}T12:00:00`); date.setDate(date.getDate() + 1); setDate(localISODate(date)); });
+  $('#prev-day').addEventListener('click', () => setDate(changeDate(selectedDate, -1, periodMode)));
+  $('#next-day').addEventListener('click', () => setDate(changeDate(selectedDate, 1, periodMode)));
   $('#date-picker').addEventListener('change', (event) => setDate(event.target.value));
+  $('#month-picker').addEventListener('change', (event) => {
+    if (!event.target.value) return;
+    const [year, month] = event.target.value.split('-').map(Number);
+    const day = Math.min(Number(selectedDate.slice(8, 10)), new Date(year, month, 0).getDate());
+    setDate(`${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`);
+  });
+  $('#year-picker').addEventListener('change', (event) => {
+    const year = Number(event.target.value);
+    if (!Number.isInteger(year) || year < 2000 || year > 2100) { showNotice('Выберите год от 2000 до 2100.', true); renderDate(); return; }
+    const month = Number(selectedDate.slice(5, 7));
+    const day = Math.min(Number(selectedDate.slice(8, 10)), new Date(year, month, 0).getDate());
+    setDate(`${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`);
+  });
+  document.querySelectorAll('.period-option').forEach((button) => button.addEventListener('click', () => {
+    periodMode = button.dataset.period;
+    renderAll();
+  }));
   $('#export-btn').addEventListener('click', exportBackup);
   document.querySelectorAll('.nav-item').forEach((button) => button.addEventListener('click', () => setView(button.dataset.view)));
   selectFood(selectedFood); renderFoodResults(); renderAll(); setView('today');
