@@ -55,7 +55,8 @@ a { color: inherit; }
 .hero-kicker, .section-kicker, .metric-label { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
 .hero-kicker { margin-bottom: 10px; padding: 4px 7px; background: rgba(36,32,38,.84); color: #f4eaf4; }
 .date-caption { display: flex; align-items: center; gap: 9px; margin: 0; color: rgba(255,255,255,.9); font-size: 14px; text-transform: capitalize; }
-.live-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: #ead2ee; box-shadow: 0 0 0 3px rgba(255,255,255,.17); }
+@keyframes soft-pulse { 0%,100% { opacity: .58; box-shadow: 0 0 0 3px rgba(255,255,255,.10); } 50% { opacity: 1; box-shadow: 0 0 0 6px rgba(255,255,255,.24); } }
+.live-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: #ead2ee; box-shadow: 0 0 0 3px rgba(255,255,255,.17); animation: soft-pulse 2.2s ease-in-out infinite; }
 .welcome-row h1 { margin: 7px 0 0; color: #fff; font: 700 clamp(38px,5.4vw,64px)/1 Manrope,sans-serif; letter-spacing: -.075em; }
 .title-comma { color: #e8cbea; }
 .subtitle { margin: 7px 0 0; color: rgba(255,255,255,.86); font-size: 14px; line-height: 1.4; }
@@ -73,7 +74,7 @@ a { color: inherit; }
 .date-control #year-picker { position: absolute; top: 3px; left: 34px; width: calc(100% - 68px); height: calc(100% - 6px); padding: 0; border: 0; border-radius: 999px; background: rgba(71,43,80,.01); color: #fff; text-align: center; font-size: 14px; font-weight: 700; }
 .period-hint { min-height: 15px; margin: 0; color: rgba(255,255,255,.78); font-size: 11px; text-align: right; text-transform: capitalize; }
 .diary-duration { display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin: -2px 0 0; color: rgba(255,255,255,.88); font-size: 12px; font-weight: 600; }
-.diary-duration::before { width: 6px; height: 6px; content: ''; border-radius: 50%; background: #e7caec; box-shadow: 0 0 0 3px rgba(255,255,255,.12); }
+.diary-duration::before { width: 6px; height: 6px; content: ''; border-radius: 50%; background: #e7caec; box-shadow: 0 0 0 3px rgba(255,255,255,.12); animation: soft-pulse 2.2s ease-in-out infinite; }
 
 /* Daily totals are immediately below the date header. */
 .summary-section { padding: 22px clamp(18px,5vw,76px) 25px; background: #f1ebf1; }
@@ -337,4 +338,4 @@ a { color: inherit; }
   .meal-total small { font-size: 12px; }
   .bottom-grid { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; } }
