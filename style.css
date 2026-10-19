@@ -48,10 +48,10 @@ a { color: inherit; }
 .header-backup span { font-size: 17px; }
 
 /* A short branded header keeps the personal controls near the top. */
-.welcome-row { position: relative; isolation: isolate; overflow: hidden; min-height: 250px; display: grid; grid-template-columns: minmax(0,1fr); align-items: end; gap: 20px; margin: 0; padding: 66px clamp(18px,5vw,76px) 25px; color: #fff; background: transparent; }
+.welcome-row { position: relative; isolation: isolate; overflow: hidden; min-height: 250px; display: grid; grid-template-columns: minmax(0,1fr); align-items: center; gap: 20px; margin: 0; padding: 25px clamp(18px,5vw,76px); color: #fff; background: transparent; }
 .welcome-row::before { position: absolute; z-index: -1; inset: 0; content: ''; opacity: .25; background-image: radial-gradient(rgba(255,255,255,.6) .55px,transparent .8px); background-size: 4px 4px; mix-blend-mode: soft-light; }
 .hero-word { position: absolute; z-index: -1; right: -2vw; bottom: -.17em; color: rgba(247,234,250,.17); text-align: right; white-space: nowrap; font: 800 clamp(135px,24vw,330px)/.8 Manrope,sans-serif; letter-spacing: -.105em; pointer-events: none; }
-.hero-copy { position: relative; z-index: 1; width: min(100%,940px); min-width: 0; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.hero-copy { position: relative; z-index: 1; width: min(100%,940px); min-width: 0; margin: 0; display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
 .hero-kicker, .section-kicker, .metric-label { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
 .hero-kicker { margin-bottom: 10px; padding: 4px 7px; background: rgba(36,32,38,.84); color: #f4eaf4; }
 .date-caption { display: flex; align-items: center; gap: 9px; margin: 0; color: rgba(255,255,255,.9); font-size: 14px; text-transform: capitalize; }
@@ -306,7 +306,7 @@ a { color: inherit; }
   .brand { grid-column: 1; grid-row: 1; }
   .nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; margin: 0; }
   .header-backup { grid-column: 2; grid-row: 1; }
-  .welcome-row { min-height: 235px; grid-template-columns: 1fr; align-items: end; padding: 77px 14px 13px; }
+  .welcome-row { min-height: 235px; grid-template-columns: 1fr; align-items: center; padding: 25px 14px; }
   .hero-word { right: -12vw; bottom: -.07em; font-size: 34vw; }
   .hero-copy { padding-bottom: 6px; }
   .hero-details { grid-template-columns: 1fr; align-items: center; justify-items: center; }
