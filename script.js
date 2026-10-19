@@ -107,10 +107,12 @@
     noticeTimer = setTimeout(() => { notice.hidden = true; }, 4200);
   }
   function renderDate() {
-    $('#date-label').textContent = periodMode === 'day'
-      ? displayDate(selectedDate, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
-      : periodLabel();
-    $('#date-short').textContent = periodLabel();
+    $('#date-label').textContent = periodMode === 'year'
+      ? 'Годовой обзор'
+      : periodMode === 'day'
+        ? displayDate(selectedDate, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+        : periodLabel();
+    $('#date-short').textContent = periodMode === 'year' ? '' : periodLabel();
     $('#date-picker').value = selectedDate;
     $('#month-picker').value = selectedDate.slice(0, 7);
     $('#year-picker').value = selectedDate.slice(0, 4);
@@ -138,6 +140,10 @@
     $('#summary-kicker').textContent = periodMode === 'day' && selectedDate === localISODate() ? 'СЕГОДНЯ' : periodMode === 'day' ? 'ВЫБРАННАЯ ДАТА' : periodMode === 'month' ? 'ВЫБРАННЫЙ МЕСЯЦ' : 'ВЫБРАННЫЙ ГОД';
     $('#summary-title').textContent = periodMode === 'year' ? 'Итоги года' : periodMode === 'month' ? 'Итоги месяца' : 'Итоги дня';
     $('#summary-description').innerHTML = periodMode === 'day' ? 'Калории и нутриенты<br>за выбранную дату' : periodMode === 'month' ? 'Калории и нутриенты<br>за выбранный месяц' : 'Калории и нутриенты<br>за выбранный год';
+    const nutrientPeriod = periodMode === 'year' ? 'за выбранный год' : periodMode === 'month' ? 'за выбранный месяц' : 'за выбранный день';
+    $('#protein-period').textContent = nutrientPeriod;
+    $('#fat-period').textContent = nutrientPeriod;
+    $('#carbs-period').textContent = nutrientPeriod;
     $('#diary-title').innerHTML = periodMode === 'day' ? 'Дневник<br><em>питания</em>' : periodMode === 'month' ? 'Записи<br><em>месяца</em>' : 'Записи<br><em>года</em>';
     $('.diary-intro > p').textContent = periodMode === 'day'
       ? 'Добавьте продукт и задайте порцию. Итоги обновятся для выбранного дня.'
