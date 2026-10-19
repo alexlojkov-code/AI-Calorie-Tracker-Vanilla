@@ -16,10 +16,6 @@
   <div class="app-shell">
     <header class="sidebar" id="site-nav">
       <a class="brand" href="#top" aria-label="Forma — наверх"><span>forma<span class="brand-dot">.</span></span></a>
-      <nav class="nav" aria-label="Основная навигация">
-        <a class="nav-item active" href="#diary" data-view="today"><span>◷</span> Мой день</a>
-        <a class="nav-item" href="#history-section" data-view="history"><span>▤</span> История</a>
-      </nav>
       <button class="header-backup" id="export-btn" title="Скачать читаемый текстовый отчёт" aria-label="Скачать дневник в читаемом текстовом формате"><span>↓</span> Скачать дневник</button>
     </header>
 
@@ -52,6 +48,7 @@
               <input id="year-picker" type="number" min="2000" max="2100" step="1" inputmode="numeric" aria-label="Выбрать год" hidden>
               </div>
               <p class="period-hint" id="period-hint">Выбран один день</p>
+              <p class="diary-duration" id="diary-duration" aria-live="polite"></p>
             </div>
           </div>
         </section>
@@ -99,7 +96,7 @@
         <section class="orientation-section" aria-labelledby="orientation-title">
           <header class="orientation-heading"><span class="section-kicker">НАСТРОЙКИ ДНЯ</span><h2 id="orientation-title">Ваш ориентир</h2></header>
           <div class="bottom-grid">
-            <article class="goal-card"><div class="goal-symbol">◎</div><div class="goal-copy"><span class="section-kicker">ДНЕВНАЯ ЦЕЛЬ</span><h3>Калории</h3><p>Изменить цель можно в любой момент.</p><form id="goal-form" class="goal-form"><label><span class="sr-only">Цель калорий</span><input id="goal-input" type="number" min="1" max="10000" placeholder="Например, 2000"></label><span>ккал</span><button class="secondary-button" type="submit">Сохранить</button></form></div></article>
+            <article class="goal-card"><div class="goal-symbol">◎</div><div class="goal-copy"><span class="section-kicker">ДНЕВНАЯ ЦЕЛЬ</span><h3>Калории</h3><p>Изменить цель можно в любой момент.</p><form id="goal-form" class="goal-form"><label><span class="sr-only">Цель калорий</span><input id="goal-input" type="number" min="1" max="10000" ></label><span>ккал</span><button class="secondary-button" type="submit">Сохранить</button></form></div></article>
             <article class="insight-card"><span class="insight-mark">✳</span><div><span class="section-kicker">НАПОМИНАНИЕ</span><h3>Регулярность важнее идеала</h3><p>Дневник помогает замечать привычки и наблюдать за своим питанием.</p></div></article>
           </div>
         </section>
