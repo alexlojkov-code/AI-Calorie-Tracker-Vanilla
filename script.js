@@ -38,6 +38,22 @@
     const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
     return local.toISOString().slice(0, 10);
   }
+  function diaryDurationDays() {
+    const today = localISODate();
+    const firstDate = state.entries.map((entry) => entry.date).filter((date) => date <= today).sort()[0];
+    if (!firstDate) return 0;
+    const dayNumber = (value) => {
+      const [year, month, day] = value.split('-').map(Number);
+      return Date.UTC(year, month - 1, day);
+    };
+    return Math.floor((dayNumber(today) - dayNumber(firstDate)) / 86400000) + 1;
+  }
+  function dayForm(value) {
+    const lastTwo = value % 100;
+    if (lastTwo >= 11 && lastTwo <= 14) return 'дней';
+    const last = value % 10;
+    return last === 1 ? 'день' : last >= 2 && last <= 4 ? 'дня' : 'дней';
+  }
   function loadState() {
     try {
       const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
@@ -132,6 +148,8 @@
       : periodMode === 'month'
         ? `${displayDate(range.start, { day: 'numeric', month: 'long' })} — ${displayDate(range.end, { day: 'numeric', month: 'long' })}`
         : `С 1 января по 31 декабря ${selectedDate.slice(0, 4)}`;
+    const trackedDays = diaryDurationDays();
+    $('#diary-duration').textContent = 'Дневник ведётся · ' + trackedDays + ' ' + dayForm(trackedDays);
     $('#entry-date').value = selectedDate;
     $('#entry-date').min = range.start;
     $('#entry-date').max = range.end;
