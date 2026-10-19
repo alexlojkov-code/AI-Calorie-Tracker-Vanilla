@@ -131,6 +131,8 @@
         ? `${displayDate(range.start, { day: 'numeric', month: 'long' })} — ${displayDate(range.end, { day: 'numeric', month: 'long' })}`
         : `С 1 января по 31 декабря ${selectedDate.slice(0, 4)}`;
     $('#entry-date').value = selectedDate;
+    $('#entry-date').min = range.start;
+    $('#entry-date').max = range.end;
     $('#entry-date-wrap').hidden = periodMode === 'day';
     $('.entry-controls').classList.toggle('has-period-date', periodMode !== 'day');
     $('#summary-kicker').textContent = periodMode === 'day' && selectedDate === localISODate() ? 'СЕГОДНЯ' : periodMode === 'day' ? 'ВЫБРАННАЯ ДАТА' : periodMode === 'month' ? 'ВЫБРАННЫЙ МЕСЯЦ' : 'ВЫБРАННЫЙ ГОД';
