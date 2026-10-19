@@ -213,9 +213,46 @@
   }
   function setDate(date) { if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return; selectedDate = date; renderAll(); }
   function exportBackup() {
-    const blob = new Blob([JSON.stringify({ format: 'forma-local-backup-v1', exportedAt: new Date().toISOString(), ...state }, null, 2)], { type: 'application/json' });
-    const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `forma-backup-${localISODate()}.json`; link.click(); URL.revokeObjectURL(link.href);
-    showNotice('Резервная копия скачана. Храните файл в безопасном месте.');
+    const mealOrder = Object.keys(mealNames);
+    const entries = [...state.entries].sort((a, b) => b.date.localeCompare(a.date) || mealOrder.indexOf(a.meal) - mealOrder.indexOf(b.meal));
+    const days = new Map();
+    entries.forEach((entry) => {
+      if (!days.has(entry.date)) days.set(entry.date, []);
+      days.get(entry.date).push(entry);
+    });
+    const lines = [
+      'FORMA — ЛИЧНЫЙ ДНЕВНИК ПИТАНИЯ',
+      `Отчёт создан: ${new Intl.DateTimeFormat('ru-RU', { dateStyle: 'long', timeStyle: 'short' }).format(new Date())}`,
+      `Дневная цель: ${state.goal ? `${number(state.goal, 0)} ккал` : 'не задана'}`,
+      `Записей в дневнике: ${entries.length}`,
+      '',
+      'ИСТОРИЯ ПИТАНИЯ',
+    ];
+    if (!days.size) lines.push('', 'Записей пока нет.');
+    for (const [date, dayEntries] of days) {
+      const macros = `Белки: ${number(total(dayEntries, 'protein'))} г · Жиры: ${number(total(dayEntries, 'fat'))} г · Углеводы: ${number(total(dayEntries, 'carbs'))} г`;
+      lines.push('', '─'.repeat(56), displayDate(date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), `Итого: ${number(total(dayEntries, 'kcal'), 0)} ккал · ${macros}`);
+      Object.entries(mealNames).forEach(([meal, name]) => {
+        const items = dayEntries.filter((entry) => entry.meal === meal);
+        lines.push('', name.toLocaleUpperCase('ru'));
+        if (!items.length) { lines.push('  Нет записей'); return; }
+        items.forEach((entry) => {
+          lines.push(`  • ${entry.name} — ${gramsText(entry.grams)} · ${number(entry.kcal, 0)} ккал · Б ${number(entry.protein)} г · Ж ${number(entry.fat)} г · У ${number(entry.carbs)} г`);
+        });
+      });
+    }
+    if (state.customFoods.length) {
+      lines.push('', '─'.repeat(56), 'МОИ ПРОДУКТЫ (значения на 100 г)');
+      state.customFoods.forEach((food) => {
+        lines.push(`  • ${food.name} — ${number(food.kcal, 0)} ккал · Б ${number(food.protein)} г · Ж ${number(food.fat)} г · У ${number(food.carbs)} г`);
+      });
+    }
+    lines.push('', 'Данные выгружены из личного дневника Forma.');
+    const blob = new Blob([`\uFEFF${lines.join('\n')}`], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a'); link.href = url; link.download = `forma-dnevnik-${localISODate()}.txt`; link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showNotice('Читаемый отчёт скачан в формате TXT.');
   }
   function setView(view) {
     activeView = view;
