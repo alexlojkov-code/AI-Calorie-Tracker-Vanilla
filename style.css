@@ -33,7 +33,9 @@ a { color: inherit; }
 /* Compact navigation stays visible while the diary is in use. */
 .sidebar { position: sticky; z-index: 10; top: 0; isolation: isolate; overflow: hidden; min-height: 66px; display: flex; align-items: center; gap: clamp(15px,3vw,40px); padding: 10px clamp(18px,4.5vw,66px); border-bottom: 1px solid rgba(255,255,255,.2); background: transparent; color: #fff; backdrop-filter: blur(12px); }
 .sidebar::before { position: absolute; z-index: -1; inset: 0; content: ''; opacity: .25; background-image: radial-gradient(rgba(255,255,255,.6) .55px,transparent .8px); background-size: 4px 4px; mix-blend-mode: soft-light; pointer-events: none; }
+.sidebar::after { position: absolute; z-index: 0; top: calc(0px - min(30vw,370px)); right: -5%; width: min(60vw,740px); aspect-ratio: 1; content: ''; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; box-shadow: 0 0 0 34px rgba(255,255,255,.025),0 0 0 81px rgba(255,255,255,.018); pointer-events: none; }
 .brand { display: inline-flex; align-items: center; gap: 0; color: #fff; text-decoration: none; font: 800 20px Manrope,sans-serif; letter-spacing: -1.1px; }
+.sidebar > .brand, .sidebar > .nav, .sidebar > .header-backup { position: relative; z-index: 1; }
 .brand-dot { color: #352e38; }
 .nav { display: flex; align-items: center; gap: clamp(10px,2vw,25px); margin-left: auto; }
 .nav-item { position: relative; min-height: 36px; display: inline-flex; align-items: center; gap: 7px; padding: 0 2px; border: 0; background: transparent; color: rgba(255,255,255,.78); text-align: left; text-decoration: none; font-size: 12px; text-transform: uppercase; transition: color .18s ease; }
@@ -233,6 +235,7 @@ a { color: inherit; }
 }
 @media (max-width: 760px) {
   .app-shell::before { top: calc(42px - 45vw); right: -48%; width: 90vw; }
+  .sidebar::after { top: calc(42px - 45vw); right: -48%; width: 90vw; }
   .sidebar { min-height: 62px; gap: 10px; padding: 9px 14px; }
   .brand { gap: 0; font-size: 17px; }
   .nav { gap: 12px; }
