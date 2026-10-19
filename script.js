@@ -387,7 +387,6 @@
   function setView(view) {
     activeView = view;
     document.querySelectorAll('.nav-item').forEach((item) => item.classList.toggle('active', item.dataset.view === view));
-    $('#history-section').hidden = view !== 'history';
     $('#crumb-title').textContent = view === 'today' ? 'Мой день' : 'История';
     $('#date-label').parentElement.hidden = view === 'history';
     if (view === 'today') renderDate();
