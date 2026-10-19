@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f2">
+  <meta name="description" content="Личный дневник питания: калории и нутриенты хранятся в этом браузере.">
+  <title>Forma — дневник питания</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#top"><span class="brand-mark">✳</span><span>forma<span class="brand-dot">.</span></span></a>
+      <p class="side-label">ВАШЕ ПРОСТРАНСТВО</p>
+      <nav class="nav" aria-label="Основная навигация">
+        <button class="nav-item active" data-view="today"><span>◷</span> Мой день</button>
+        <button class="nav-item" data-view="history"><span>▤</span> История</button>
+      </nav>
+      <div class="sidebar-note"><span class="note-star">✦</span><b>Без лишнего шума</b><p>Ваши записи сохраняются только в этом браузере.</p></div>
+      <div class="sidebar-bottom"><span class="privacy-dot"></span> Личные данные на устройстве</div>
+    </aside>
+
+    <main class="main-area" id="top">
+      <header class="topbar"><div class="breadcrumb"><span>ДНЕВНИК</span><i>/</i><b id="crumb-title">Мой день</b></div><div class="top-actions"><button class="icon-button" id="export-btn" title="Скачать резервную копию" aria-label="Скачать резервную копию">↓</button><button class="avatar" aria-label="Локальный дневник">✳</button></div></header>
+      <div class="content">
+        <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
+        <section class="welcome-row"><div><p class="date-caption"><span class="live-dot"></span><span id="date-label"></span></p><h1 id="page-title">Добрый день<span class="title-comma">,</span></h1><p class="subtitle">Бережно отмечайте то, что поддерживает вас.</p></div><div class="date-control"><button id="prev-day" aria-label="Предыдущий день">‹</button><strong id="date-short"></strong><button id="next-day" aria-label="Следующий день">›</button><input id="date-picker" type="date" aria-label="Выбрать дату"></div></section>
+
+        <section class="summary-grid" aria-label="Итоги дня">
+          <article class="calorie-card"><div class="card-label-row"><span class="metric-label">КАЛОРИИ СЕГОДНЯ</span><span class="metric-icon">♨</span></div><div class="calorie-value"><strong id="total-kcal">0</strong><span>ккал</span></div><div class="progress-track"><span id="goal-progress"></span></div><div class="calorie-foot"><span id="goal-caption">Дневная цель не задана</span><span id="goal-remaining">Укажите цель ниже</span></div></article>
+          <article class="metric-card protein"><div class="card-label-row"><span class="metric-label">БЕЛКИ</span><span class="metric-icon">◉</span></div><strong id="total-protein">0 г</strong><small>за выбранный день</small></article>
+          <article class="metric-card fat"><div class="card-label-row"><span class="metric-label">ЖИРЫ</span><span class="metric-icon">◒</span></div><strong id="total-fat">0 г</strong><small>за выбранный день</small></article>
+          <article class="metric-card carbs"><div class="card-label-row"><span class="metric-label">УГЛЕВОДЫ</span><span class="metric-icon">◈</span></div><strong id="total-carbs">0 г</strong><small>за выбранный день</small></article>
+        </section>
+
+        <section class="section-head"><div><span class="section-kicker">СОЗДАЙТЕ СВОЙ РИТМ</span><h2>Что вы ели? <span class="count-pill" id="entry-count">0</span></h2></div><button class="primary" id="show-add"><span>＋</span> Добавить еду</button></section>
+
+        <section class="add-panel" id="add-panel" hidden>
+          <div class="panel-heading"><div><span class="section-kicker">НОВАЯ ЗАПИСЬ</span><h3>Добавить продукт</h3></div><button class="close-button" id="hide-add" aria-label="Свернуть">×</button></div>
+          <label class="search-box"><span>⌕</span><input id="food-search" type="search" placeholder="Найдите продукт в каталоге или добавьте свой" autocomplete="off"><button id="clear-search" type="button" aria-label="Очистить поиск">×</button></label>
+          <p class="catalog-note">Встроенный справочный каталог содержит ориентировочные значения. Для точного учёта используйте данные с упаковки через «Свой продукт».</p>
+          <div class="food-results" id="food-results"></div>
+          <form id="entry-form" class="entry-form">
+            <div class="selected-food"><div><small>ВЫБРАННЫЙ ПРОДУКТ</small><strong id="selected-name">Овсяная каша</strong></div><button id="custom-toggle" type="button" class="text-button">Свой продукт</button></div>
+            <div class="custom-fields" id="custom-fields" hidden>
+              <label>Название<input id="custom-name" type="text" maxlength="80" placeholder="Например, домашний суп"></label>
+              <div class="macro-inputs"><label>Ккал / 100 г<input id="custom-kcal" type="number" min="0" max="1000" step="any" placeholder="обязательно"></label><label>Белки, г<input id="custom-protein" type="number" min="0" max="1000" step="any" placeholder="необязательно"></label><label>Жиры, г<input id="custom-fat" type="number" min="0" max="1000" step="any" placeholder="необязательно"></label><label>Углеводы, г<input id="custom-carbs" type="number" min="0" max="1000" step="any" placeholder="необязательно"></label></div>
+            </div>
+            <div class="entry-controls"><label>Масса, г<input id="entry-grams" type="number" min="1" max="5000" step="1" value="100" required></label><label>Приём пищи<select id="meal-select"><option value="breakfast">Завтрак</option><option value="lunch">Обед</option><option value="dinner">Ужин</option><option value="snack">Перекус</option></select></label><button class="primary save-entry" type="submit">Добавить в дневник <span>→</span></button></div>
+            <p class="helper">Пустые значения нутриентов остаются неизвестными, а не считаются за ноль.</p>
+          </form>
+        </section>
+
+        <section class="meal-list" id="meal-list" aria-label="Приёмы пищи"></section>
+
+        <section class="bottom-grid">
+          <article class="goal-card"><div class="goal-symbol">◎</div><div class="goal-copy"><span class="section-kicker">ВАШ МЯГКИЙ ОРИЕНТИР</span><h3>Дневная цель калорий</h3><p>Не правило, а ориентир. Изменить можно в любой момент.</p><form id="goal-form" class="goal-form"><label><span class="sr-only">Цель калорий</span><input id="goal-input" type="number" min="1" max="10000" placeholder="Например, 2000"></label><span>ккал</span><button class="secondary-button" type="submit">Сохранить</button></form></div></article>
+          <article class="insight-card"><span class="insight-mark">✿</span><div><span class="section-kicker">МАЛЕНЬКОЕ НАПОМИНАНИЕ</span><h3>Регулярность важнее идеала</h3><p>Дневник помогает замечать привычки. Выбирайте то, что подходит именно вам.</p></div></article>
+        </section>
+        <section class="history-section" id="history-section" hidden><div class="section-head history-title"><div><span class="section-kicker">ЛОКАЛЬНАЯ ИСТОРИЯ</span><h2>Последние 7 дней</h2></div></div><div class="history-chart" id="history-chart"></div><p class="helper">История видна только в этом браузере. Скачайте резервную копию, чтобы перенести её на другое устройство.</p></section>
+        <footer class="footer"><span>forma<span class="brand-dot">.</span> <span>ваше питание, с вниманием</span></span><span>Записи хранятся локально в этом браузере</span></footer>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
