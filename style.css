@@ -90,6 +90,7 @@ a { color: inherit; }
 .metric-label { color: #716975; font-size: 12px; }
 .calorie-card .metric-label { color: rgba(255,255,255,.86); }
 .metric-icon { width: 25px; height: 25px; display: grid; place-items: center; border: 1px solid rgba(67,54,71,.15); border-radius: 50%; background: #f0e9f0; color: #805a90; font-size: 13px; }
+.metric-icon svg { display: block; width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .calorie-card .metric-icon { border-color: rgba(255,255,255,.23); background: rgba(255,255,255,.13); color: #fff; }
 .calorie-value { position: relative; z-index: 1; display: flex; align-items: baseline; gap: 7px; margin-top: 5px; }
 .calorie-value strong { color: #fff; font: 700 31px/1 Manrope,sans-serif; letter-spacing: -1.5px; }
