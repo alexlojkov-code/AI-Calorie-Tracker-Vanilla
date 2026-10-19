@@ -37,19 +37,29 @@
             <p class="subtitle">Ваш дневник питания — записи и итоги на одном экране.</p>
           </div>
           <div class="hero-details">
-            <div class="date-control">
+            <div class="period-tools">
+              <div class="period-switch" role="group" aria-label="Период дневника">
+                <button type="button" class="period-option active" data-period="day" aria-pressed="true">День</button>
+                <button type="button" class="period-option" data-period="month" aria-pressed="false">Месяц</button>
+                <button type="button" class="period-option" data-period="year" aria-pressed="false">Год</button>
+              </div>
+              <div class="date-control">
               <button id="prev-day" aria-label="Предыдущий день">‹</button>
-              <strong id="date-short"></strong>
+              <strong id="date-short" aria-live="polite"></strong>
               <button id="next-day" aria-label="Следующий день">›</button>
               <input id="date-picker" type="date" aria-label="Выбрать дату">
+              <input id="month-picker" type="month" aria-label="Выбрать месяц" hidden>
+              <input id="year-picker" type="number" min="2000" max="2100" step="1" inputmode="numeric" aria-label="Выбрать год" hidden>
+              </div>
+              <p class="period-hint" id="period-hint">Выбран один день</p>
             </div>
           </div>
         </section>
 
         <section class="summary-section" aria-labelledby="summary-title">
           <header class="summary-heading">
-            <div><span class="section-kicker">СЕГОДНЯ</span><h2 id="summary-title">Итоги дня</h2></div>
-            <p>Калории и нутриенты<br>за выбранную дату</p>
+            <div><span class="section-kicker" id="summary-kicker">СЕГОДНЯ</span><h2 id="summary-title">Итоги дня</h2></div>
+            <p id="summary-description">Калории и нутриенты<br>за выбранную дату</p>
           </header>
           <div class="summary-grid" aria-label="Итоги дня">
             <article class="calorie-card"><div class="card-label-row"><span class="metric-label">КАЛОРИИ</span><span class="metric-icon">♨</span></div><div class="calorie-value"><strong id="total-kcal">0</strong><span>ккал</span></div><div class="progress-track"><span id="goal-progress"></span></div><div class="calorie-foot"><span id="goal-caption">Дневная цель не задана</span><span id="goal-remaining">Укажите цель ниже</span></div></article>
@@ -78,7 +88,7 @@
                   <label>Название<input id="custom-name" type="text" maxlength="80" placeholder="Например, домашний суп"></label>
                   <div class="macro-inputs"><label>Ккал / 100 г<input id="custom-kcal" type="number" min="0" max="1000" step="any" placeholder="обязательно"></label><label>Белки, г<input id="custom-protein" type="number" min="0" max="1000" step="any" placeholder="необязательно"></label><label>Жиры, г<input id="custom-fat" type="number" min="0" max="1000" step="any" placeholder="необязательно"></label><label>Углеводы, г<input id="custom-carbs" type="number" min="0" max="1000" step="any" placeholder="необязательно"></label></div>
                 </div>
-                <div class="entry-controls"><label>Масса, г<input id="entry-grams" type="number" min="1" max="5000" step="1" value="100" required></label><label>Приём пищи<select id="meal-select"><option value="breakfast">Завтрак</option><option value="lunch">Обед</option><option value="dinner">Ужин</option><option value="snack">Перекус</option></select></label><button class="primary save-entry" type="submit">Добавить в дневник <span>→</span></button></div>
+                <div class="entry-controls"><label id="entry-date-wrap" class="entry-date-control" hidden>Дата записи<input id="entry-date" type="date" required></label><label>Масса, г<input id="entry-grams" type="number" min="1" max="5000" step="1" value="100" required></label><label>Приём пищи<select id="meal-select"><option value="breakfast">Завтрак</option><option value="lunch">Обед</option><option value="dinner">Ужин</option><option value="snack">Перекус</option></select></label><button class="primary save-entry" type="submit">Добавить в дневник <span>→</span></button></div>
                 <p class="helper">Неизвестные значения нутриентов останутся пустыми.</p>
               </form>
             </section>
@@ -95,7 +105,7 @@
         </section>
 
         <section class="history-section" id="history-section" hidden aria-labelledby="history-title">
-          <div class="history-heading"><div><span class="section-kicker">ЗАПИСИ В БРАУЗЕРЕ</span><h2 id="history-title">Последние 7 дней</h2></div><p>График меняется вместе с выбранной датой.</p></div>
+          <div class="history-heading"><div><span class="section-kicker">ЗАПИСИ В БРАУЗЕРЕ</span><h2 id="history-title">Последние 7 дней</h2></div><p id="history-description">График меняется вместе с выбранным периодом.</p></div>
           <div class="history-chart" id="history-chart"></div>
           <p class="helper">Скачайте дневник в верхнем меню, чтобы сохранить читаемый отчёт.</p>
         </section>
