@@ -25,6 +25,159 @@
     { id: 'almonds', name: 'Миндаль', group: 'Орехи', kcal: 579, protein: 21.2, fat: 49.9, carbs: 21.6 },
     { id: 'olive-oil', name: 'Оливковое масло', group: 'Масла', kcal: 884, protein: 0, fat: 100, carbs: 0 },
   ];
+  const expandedCatalog = [
+    "borscht-vegetarian|Борщ постный|Русская и славянская кухня|45|1.5|1.5|7",
+    "borscht-beef|Борщ с говядиной|Русская и славянская кухня|57|4|2.5|5",
+    "shchi|Щи из свежей капусты|Русская и славянская кухня|42|2|1.5|5",
+    "rassolnik|Рассольник|Русская и славянская кухня|50|2.5|1.7|6.5",
+    "solyanka|Солянка мясная|Русская и славянская кухня|80|5|4|4",
+    "chicken-noodle-soup|Куриный суп с лапшой|Русская и славянская кухня|45|3.5|1.3|5",
+    "pelmeni-boiled|Пельмени отварные|Русская и славянская кухня|245|11|12|24",
+    "pelmeni-fried|Пельмени жареные|Русская и славянская кухня|310|12|18|25",
+    "vareniki-potato|Вареники с картофелем|Русская и славянская кухня|190|5|4|33",
+    "vareniki-curd|Вареники с творогом|Русская и славянская кухня|205|10|4|30",
+    "syrniki|Сырники|Русская и славянская кухня|240|14|10|24",
+    "blini|Блины домашние|Русская и славянская кухня|220|6|8|31",
+    "olivier-salad|Салат оливье|Русская и славянская кухня|180|5|15|7",
+    "vinaigrette|Винегрет|Русская и славянская кухня|78|2|4|9",
+    "herring-under-coat|Сельдь под шубой|Русская и славянская кухня|190|7|15|8",
+    "draniki|Драники картофельные|Русская и славянская кухня|190|4|9|24",
+    "beef-stroganoff|Бефстроганов|Русская и славянская кухня|175|13|11|6",
+    "cabbage-rolls|Голубцы с мясом и рисом|Русская и славянская кухня|140|8|7|10",
+    "buckwheat-mushroom|Гречка с грибами|Русская и славянская кухня|110|4|3|17",
+    "ukha|Уха|Русская и славянская кухня|40|5|1|2",
+    "okroshka-kefir|Окрошка на кефире|Русская и славянская кухня|60|3|2|7",
+    "potato-casserole|Картофельная запеканка с мясом|Русская и славянская кухня|160|9|8|13",
+    "uzbek-plov-beef|Плов с говядиной|Узбекская и центральноазиатская кухня|205|9|10|21",
+    "uzbek-plov-chicken|Плов с курицей|Узбекская и центральноазиатская кухня|180|10|6|22",
+    "lagman|Лагман|Узбекская и центральноазиатская кухня|110|5|3|15",
+    "manti-beef|Манты с говядиной|Узбекская и центральноазиатская кухня|230|10|11|24",
+    "samsa-beef|Самса с говядиной|Узбекская и центральноазиатская кухня|285|10|17|25",
+    "shurpa|Шурпа|Узбекская и центральноазиатская кухня|60|6|2|4",
+    "mastava|Мастава|Узбекская и центральноазиатская кухня|80|4|2|12",
+    "dimlama|Димлама|Узбекская и центральноазиатская кухня|70|4|3|7",
+    "chuchvara-soup|Чучвара в бульоне|Узбекская и центральноазиатская кухня|75|5|2|8",
+    "norin|Нарын с мясом|Узбекская и центральноазиатская кухня|210|9|7|27",
+    "beshbarmak|Бешбармак|Узбекская и центральноазиатская кухня|200|11|8|21",
+    "kazy|Казы|Узбекская и центральноазиатская кухня|320|20|26|0",
+    "kuurdak|Куурдак|Узбекская и центральноазиатская кухня|230|17|16|5",
+    "uzbek-non|Узбекская лепёшка|Узбекская и центральноазиатская кухня|270|9|4|49",
+    "baursak|Баурсаки|Узбекская и центральноазиатская кухня|380|8|22|39",
+    "pumpkin-samsa|Самса с тыквой|Узбекская и центральноазиатская кухня|250|6|13|29",
+    "moshkichiri|Мошкичири с машем|Узбекская и центральноазиатская кухня|140|7|4|19",
+    "qurutob|Курутоб|Узбекская и центральноазиатская кухня|155|6|7|18",
+    "lamb-shashlik|Шашлык из баранины|Узбекская и центральноазиатская кухня|260|24|18|0",
+    "chak-chak|Чак-чак|Узбекская и центральноазиатская кухня|445|7|23|55",
+    "khachapuri-adjarian|Хачапури по-аджарски|Кавказская и ближневосточная кухня|280|11|15|26",
+    "khachapuri-imeretian|Хачапури по-имеретински|Кавказская и ближневосточная кухня|260|12|13|24",
+    "khinkali|Хинкали с говядиной|Кавказская и ближневосточная кухня|200|9|8|22",
+    "lobio|Лобио из фасоли|Кавказская и ближневосточная кухня|120|7|4|15",
+    "dolma|Долма с мясом и рисом|Кавказская и ближневосточная кухня|155|7|10|10",
+    "satsivi-chicken|Сациви с курицей|Кавказская и ближневосточная кухня|210|16|14|5",
+    "chicken-tabaka|Цыплёнок табака|Кавказская и ближневосточная кухня|230|24|14|0",
+    "hummus|Хумус|Кавказская и ближневосточная кухня|166|8|10|14",
+    "falafel|Фалафель|Кавказская и ближневосточная кухня|333|13|18|32",
+    "tabbouleh|Табуле|Кавказская и ближневосточная кухня|130|3|8|13",
+    "fattoush|Фаттуш|Кавказская и ближневосточная кухня|100|3|6|10",
+    "chicken-shawarma|Шаурма с курицей|Кавказская и ближневосточная кухня|180|16|8|12",
+    "lamb-kofta|Кёфте из баранины|Кавказская и ближневосточная кухня|250|20|18|2",
+    "vegetable-couscous|Кускус с овощами|Кавказская и ближневосточная кухня|112|4|3|18",
+    "shakshuka|Шакшука|Кавказская и ближневосточная кухня|95|6|6|4",
+    "baba-ganoush|Баба-гануш|Кавказская и ближневосточная кухня|120|3|9|7",
+    "pita|Пита|Кавказская и ближневосточная кухня|275|9|1.5|56",
+    "baklava|Пахлава|Кавказская и ближневосточная кухня|430|6|25|48",
+    "pizza-margherita|Пицца «Маргарита»|Итальянская и средиземноморская кухня|250|11|9|31",
+    "lasagna-beef|Лазанья с говядиной|Итальянская и средиземноморская кухня|160|10|8|13",
+    "pasta-carbonara|Паста карбонара|Итальянская и средиземноморская кухня|260|11|15|22",
+    "mushroom-risotto|Ризотто с грибами|Итальянская и средиземноморская кухня|135|4|5|19",
+    "pasta-bolognese|Паста болоньезе|Итальянская и средиземноморская кухня|170|8|6|22",
+    "pasta-pesto|Паста с соусом песто|Итальянская и средиземноморская кухня|220|7|11|25",
+    "gnocchi-tomato|Ньокки в томатном соусе|Итальянская и средиземноморская кухня|160|4|4|27",
+    "ravioli-ricotta|Равиоли с рикоттой и шпинатом|Итальянская и средиземноморская кухня|230|9|9|28",
+    "minestrone|Суп минестроне|Итальянская и средиземноморская кухня|45|2|1|7",
+    "caprese|Салат капрезе|Итальянская и средиземноморская кухня|180|9|14|4",
+    "focaccia|Фокачча|Итальянская и средиземноморская кухня|300|8|9|47",
+    "greek-salad|Греческий салат|Итальянская и средиземноморская кухня|95|3|7|5",
+    "ratatouille|Рататуй|Итальянская и средиземноморская кухня|60|2|3|7",
+    "paella-seafood|Паэлья с морепродуктами|Итальянская и средиземноморская кухня|155|9|4|21",
+    "tortilla-espanola|Испанская тортилья с картофелем|Итальянская и средиземноморская кухня|165|7|10|12",
+    "tiramisu|Тирамису|Итальянская и средиземноморская кухня|300|5|19|27",
+    "sushi-salmon|Суши с лососем|Восточная и юго-восточная Азия|160|9|5|20",
+    "california-roll|Ролл «Калифорния»|Восточная и юго-восточная Азия|175|6|6|26",
+    "miso-soup|Суп мисо|Восточная и юго-восточная Азия|35|2.5|1.2|4",
+    "chicken-ramen|Рамен с курицей|Восточная и юго-восточная Азия|115|7|4|12",
+    "tonkotsu-ramen|Рамен тонкоцу со свининой|Восточная и юго-восточная Азия|180|9|8|18",
+    "yakisoba|Якисоба с овощами|Восточная и юго-восточная Азия|150|6|5|21",
+    "tempura-udon|Удон с темпурой|Восточная и юго-восточная Азия|155|7|6|18",
+    "soba|Лапша соба|Восточная и юго-восточная Азия|99|5|1|20",
+    "egg-fried-rice|Жареный рис с яйцом|Восточная и юго-восточная Азия|160|5|5|24",
+    "gyoza|Гёдза с мясом|Восточная и юго-восточная Азия|210|9|9|23",
+    "mapo-tofu|Мапо тофу|Восточная и юго-восточная Азия|140|9|10|5",
+    "kung-pao-chicken|Курица гунбао|Восточная и юго-восточная Азия|165|14|8|10",
+    "peking-duck|Утка по-пекински|Восточная и юго-восточная Азия|285|19|22|1",
+    "spring-rolls|Спринг-роллы с овощами|Восточная и юго-восточная Азия|160|4|6|23",
+    "bibimbap|Пибимпап|Восточная и юго-восточная Азия|130|7|4|17",
+    "bulgogi|Пулькоги из говядины|Восточная и юго-восточная Азия|190|16|10|8",
+    "kimchi-stew|Кимчи-ччигэ|Восточная и юго-восточная Азия|75|6|4|4",
+    "japchae|Чапче с овощами|Восточная и юго-восточная Азия|150|4|5|22",
+    "pad-thai|Пад-тай с курицей|Восточная и юго-восточная Азия|190|7|7|25",
+    "thai-green-curry|Тайское зелёное карри с курицей|Восточная и юго-восточная Азия|145|10|9|7",
+    "tom-yum-shrimp|Том-ям с креветками|Восточная и юго-восточная Азия|45|5|1|4",
+    "pho-beef|Фо бо с говядиной|Восточная и юго-восточная Азия|60|5|1.5|7",
+    "pho-chicken|Фо га с курицей|Восточная и юго-восточная Азия|55|5|1|6",
+    "banh-mi|Бань ми с курицей|Восточная и юго-восточная Азия|230|12|8|27",
+    "rice-paper-rolls|Спринг-роллы в рисовой бумаге|Восточная и юго-восточная Азия|100|6|2|15",
+    "chicken-butter|Курица баттер-масала|Индийская и южноазиатская кухня|160|13|10|5",
+    "chicken-tikka|Курица тикка|Индийская и южноазиатская кухня|150|23|5|3",
+    "chicken-biryani|Бирьяни с курицей|Индийская и южноазиатская кухня|170|9|6|20",
+    "dal-tadka|Дал тадка из чечевицы|Индийская и южноазиатская кухня|120|7|4|15",
+    "chana-masala|Чана масала|Индийская и южноазиатская кухня|145|7|5|19",
+    "palak-paneer|Палак панир|Индийская и южноазиатская кухня|160|8|12|7",
+    "samosa-potato|Самоса с картофелем|Индийская и южноазиатская кухня|260|5|14|29",
+    "masala-dosa|Масала доса|Индийская и южноазиатская кухня|165|4|6|24",
+    "idli|Идли|Индийская и южноазиатская кухня|145|4|1|30",
+    "naan|Наан|Индийская и южноазиатская кухня|290|9|6|50",
+    "aloo-gobi|Алу гоби|Индийская и южноазиатская кухня|95|3|4|13",
+    "rajma|Раджма из красной фасоли|Индийская и южноазиатская кухня|125|7|3|18",
+    "chicken-korma|Куриная корма|Индийская и южноазиатская кухня|180|12|12|6",
+    "paneer-tikka|Панир тикка|Индийская и южноазиатская кухня|210|14|14|7",
+    "beef-tacos|Тако с говядиной|Латиноамериканская кухня|220|12|12|17",
+    "chicken-burrito|Буррито с курицей|Латиноамериканская кухня|180|10|6|22",
+    "chicken-enchiladas|Энчиладас с курицей|Латиноамериканская кухня|175|12|7|16",
+    "cheese-quesadilla|Кесадилья с сыром|Латиноамериканская кухня|310|13|17|26",
+    "guacamole|Гуакамоле|Латиноамериканская кухня|150|2|14|8",
+    "ceviche|Севиче из белой рыбы|Латиноамериканская кухня|95|17|2|2",
+    "beef-empanada|Эмпанада с говядиной|Латиноамериканская кухня|260|10|12|27",
+    "feijoada|Фейжоада с фасолью|Латиноамериканская кухня|130|9|6|11",
+    "arroz-con-pollo|Аррос кон пойо с курицей|Латиноамериканская кухня|165|9|5|21",
+    "cheese-arepa|Арепа с сыром|Латиноамериканская кухня|250|7|9|35",
+    "jollof-rice|Джоллоф-райс|Африканская кухня|150|3|5|23",
+    "doro-wat|Доро ват из курицы|Африканская кухня|170|16|10|4",
+    "injera|Инжера|Африканская кухня|130|4|1|28",
+    "ugali|Угали из кукурузной муки|Африканская кухня|145|3|1|32",
+    "fufu|Фуфу из маниока|Африканская кухня|160|1|0|38",
+    "peanut-chicken-stew|Африканское рагу с курицей и арахисом|Африканская кухня|180|10|11|10",
+    "cheeseburger|Чизбургер|Европа и Америка|285|16|15|22",
+    "mac-and-cheese|Макароны с сыром|Европа и Америка|190|7|8|23",
+    "grilled-cheese|Сэндвич с жареным сыром|Европа и Америка|290|12|16|26",
+    "fish-and-chips|Фиш-энд-чипс|Европа и Америка|230|12|12|19",
+    "chicken-caesar|Салат «Цезарь» с курицей|Европа и Америка|155|12|10|6",
+    "yogurt-parfait|Йогуртовый парфе с ягодами|Европа и Америка|125|7|4|15",
+    "berry-oatmeal|Овсяная каша с ягодами|Европа и Америка|95|3|2|16",
+    "granola-bowl|Гранола с йогуртом|Европа и Америка|180|5|7|25",
+    "baked-potato-sour-cream|Запечённый картофель со сметаной|Европа и Америка|125|3|4|19",
+    "salmon-poke|Поке с лососем|Европа и Америка|145|10|6|13",
+    "quinoa-vegetables|Киноа с овощами|Европа и Америка|115|4|3|18",
+    "lentil-soup|Чечевичный суп|Европа и Америка|65|4|1|10",
+    "roast-chicken-thigh|Запечённое куриное бедро|Европа и Америка|220|25|13|0",
+    "tofu-stir-fry|Тофу с овощами вок|Европа и Америка|120|9|7|6",
+    "cheese-omelet|Омлет с сыром|Европа и Америка|190|13|14|2",
+    "fruit-salad|Фруктовый салат|Европа и Америка|65|1|0|16",
+  ].map((row) => {
+    const [id, name, group, kcal, protein, fat, carbs] = row.split("|");
+    return { id, name, group, kcal: Number(kcal), protein: Number(protein), fat: Number(fat), carbs: Number(carbs) };
+  });
+  catalog.push(...expandedCatalog);
   const $ = (selector) => document.querySelector(selector);
   const state = loadState();
   let selectedDate = localISODate();
@@ -300,8 +453,9 @@
   }
   function renderFoodResults(query = '') {
     const host = $('#food-results'); host.replaceChildren();
+    $('#catalog-note').textContent = 'Встроенная база: ' + catalog.length + ' позиций. Значения на 100 г ориентировочные и зависят от рецепта.';
     const normalized = query.trim().toLocaleLowerCase('ru');
-    const matches = allFoods().filter((food) => !normalized || `${food.name} ${food.group || ''}`.toLocaleLowerCase('ru').includes(normalized)).slice(0, 12);
+    const matches = allFoods().filter((food) => !normalized || `${food.name} ${food.group || ''}`.toLocaleLowerCase('ru').includes(normalized)).slice(0, 24);
     if (!matches.length) {
       const empty = document.createElement('p'); empty.className = 'helper'; empty.textContent = 'В каталоге такого продукта нет. Добавьте свои значения кнопкой «Свой продукт».'; host.append(empty); return;
     }
@@ -364,91 +518,3 @@
     const mealOrder = Object.keys(mealNames);
     const entries = [...state.entries].sort((a, b) => b.date.localeCompare(a.date) || mealOrder.indexOf(a.meal) - mealOrder.indexOf(b.meal));
     const days = new Map();
-    entries.forEach((entry) => {
-      if (!days.has(entry.date)) days.set(entry.date, []);
-      days.get(entry.date).push(entry);
-    });
-    const lines = [
-      'FORMA — ЛИЧНЫЙ ДНЕВНИК ПИТАНИЯ',
-      `Отчёт создан: ${new Intl.DateTimeFormat('ru-RU', { dateStyle: 'long', timeStyle: 'short' }).format(new Date())}`,
-      `Дневная цель: ${state.goal ? `${number(state.goal, 0)} ккал` : 'не задана'}`,
-      `Записей в дневнике: ${entries.length}`,
-      '',
-      'ИСТОРИЯ ПИТАНИЯ',
-    ];
-    if (!days.size) lines.push('', 'Записей пока нет.');
-    for (const [date, dayEntries] of days) {
-      const macros = `Белки: ${number(total(dayEntries, 'protein'))} г · Жиры: ${number(total(dayEntries, 'fat'))} г · Углеводы: ${number(total(dayEntries, 'carbs'))} г`;
-      lines.push('', '─'.repeat(56), displayDate(date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), `Итого: ${number(total(dayEntries, 'kcal'), 0)} ккал · ${macros}`);
-      Object.entries(mealNames).forEach(([meal, name]) => {
-        const items = dayEntries.filter((entry) => entry.meal === meal);
-        lines.push('', name.toLocaleUpperCase('ru'));
-        if (!items.length) { lines.push('  Нет записей'); return; }
-        items.forEach((entry) => {
-          lines.push(`  • ${entry.name} — ${gramsText(entry.grams)} · ${number(entry.kcal, 0)} ккал · Б ${number(entry.protein)} г · Ж ${number(entry.fat)} г · У ${number(entry.carbs)} г`);
-        });
-      });
-    }
-    if (state.customFoods.length) {
-      lines.push('', '─'.repeat(56), 'МОИ ПРОДУКТЫ (значения на 100 г)');
-      state.customFoods.forEach((food) => {
-        lines.push(`  • ${food.name} — ${number(food.kcal, 0)} ккал · Б ${number(food.protein)} г · Ж ${number(food.fat)} г · У ${number(food.carbs)} г`);
-      });
-    }
-    lines.push('', 'Данные выгружены из личного дневника Forma.');
-    const blob = new Blob([`\uFEFF${lines.join('\n')}`], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a'); link.href = url; link.download = `forma-dnevnik-${localISODate()}.txt`; link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    showNotice('Читаемый отчёт скачан в формате TXT.');
-  }
-  function setView(view) {
-    activeView = view;
-    document.querySelectorAll('.nav-item').forEach((item) => item.classList.toggle('active', item.dataset.view === view));
-    $('#crumb-title').textContent = view === 'today' ? 'Мой день' : 'История';
-    $('#date-label').parentElement.hidden = view === 'history';
-    if (view === 'today') renderDate();
-    else {
-      $('#page-title').innerHTML = 'Ваша история<span class="title-comma">.</span>';
-      $('.subtitle').textContent = `История питания ${periodMode === 'day' ? 'по дням' : periodMode === 'month' ? 'за выбранный месяц' : 'за выбранный год'}.`;
-    }
-    if (view === 'history') renderHistory();
-  }
-
-  $('#show-add').addEventListener('click', () => { $('#add-panel').hidden = false; $('#food-search').focus(); });
-  $('#hide-add').addEventListener('click', () => { $('#add-panel').hidden = true; });
-  $('#food-search').addEventListener('input', (event) => renderFoodResults(event.target.value));
-  $('#clear-search').addEventListener('click', () => { $('#food-search').value = ''; renderFoodResults(); $('#food-search').focus(); });
-  $('#custom-toggle').addEventListener('click', () => {
-    customMode = !customMode; $('#custom-fields').hidden = !customMode;
-    $('#custom-toggle').textContent = customMode ? 'Выбрать из каталога' : 'Свой продукт';
-    if (customMode) { $('#selected-name').textContent = 'Пищевая ценность с вашей упаковки'; $('#custom-name').focus(); }
-    else { $('#selected-name').textContent = selectedFood?.name || 'Выберите продукт'; }
-    document.querySelectorAll('.food-result').forEach((button) => button.classList.remove('selected'));
-  });
-  $('#entry-form').addEventListener('submit', saveEntry);
-  $('#goal-form').addEventListener('submit', saveGoal);
-  $('#prev-day').addEventListener('click', () => setDate(changeDate(selectedDate, -1, periodMode)));
-  $('#next-day').addEventListener('click', () => setDate(changeDate(selectedDate, 1, periodMode)));
-  $('#date-picker').addEventListener('change', (event) => setDate(event.target.value));
-  $('#month-picker').addEventListener('change', (event) => {
-    if (!event.target.value) return;
-    const [year, month] = event.target.value.split('-').map(Number);
-    const day = Math.min(Number(selectedDate.slice(8, 10)), new Date(year, month, 0).getDate());
-    setDate(`${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`);
-  });
-  $('#year-picker').addEventListener('change', (event) => {
-    const year = Number(event.target.value);
-    if (!Number.isInteger(year) || year < 2000 || year > 2100) { showNotice('Выберите год от 2000 до 2100.', true); renderDate(); return; }
-    const month = Number(selectedDate.slice(5, 7));
-    const day = Math.min(Number(selectedDate.slice(8, 10)), new Date(year, month, 0).getDate());
-    setDate(`${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`);
-  });
-  document.querySelectorAll('.period-option').forEach((button) => button.addEventListener('click', () => {
-    periodMode = button.dataset.period;
-    renderAll();
-  }));
-  $('#export-btn').addEventListener('click', exportBackup);
-  document.querySelectorAll('.nav-item').forEach((button) => button.addEventListener('click', () => setView(button.dataset.view)));
-  selectFood(selectedFood); renderFoodResults(); renderAll(); setView('today');
-})();
