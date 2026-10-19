@@ -29,7 +29,7 @@ a { color: inherit; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 /* Compact navigation stays visible while the diary is in use. */
-.sidebar { position: sticky; z-index: 10; top: 0; min-height: 66px; display: flex; align-items: center; gap: clamp(15px,3vw,40px); padding: 10px clamp(18px,4.5vw,66px); border-bottom: 1px solid rgba(255,255,255,.2); background: rgba(126,77,150,.97); color: #fff; backdrop-filter: blur(12px); }
+.sidebar { position: sticky; z-index: 10; top: 0; min-height: 66px; display: flex; align-items: center; gap: clamp(15px,3vw,40px); padding: 10px clamp(18px,4.5vw,66px); border-bottom: 1px solid rgba(255,255,255,.2); background: linear-gradient(105deg,rgba(102,59,125,.94),rgba(139,83,158,.96)),radial-gradient(circle at 14% 0,rgba(255,255,255,.24),transparent 31%),radial-gradient(rgba(255,255,255,.2) .6px,transparent .8px); background-size: auto,auto,4px 4px; color: #fff; backdrop-filter: blur(12px); }
 .brand { display: inline-flex; align-items: center; gap: 0; color: #fff; text-decoration: none; font: 800 20px Manrope,sans-serif; letter-spacing: -1.1px; }
 .brand-dot { color: #352e38; }
 .nav { display: flex; align-items: center; gap: clamp(10px,2vw,25px); margin-left: auto; }
@@ -56,10 +56,18 @@ a { color: inherit; }
 .title-comma { color: #e8cbea; }
 .subtitle { margin: 7px 0 0; color: rgba(255,255,255,.86); font-size: 14px; line-height: 1.4; }
 .hero-details { position: relative; z-index: 1; display: grid; justify-items: end; padding-bottom: 2px; }
-.date-control { position: relative; height: 39px; display: flex; align-items: center; gap: 10px; padding: 0 9px; border: 1px solid rgba(255,255,255,.43); border-radius: 999px; background: rgba(71,43,80,.16); color: #fff; font-size: 13px; backdrop-filter: blur(7px); }
+.period-tools { display: grid; justify-items: end; gap: 7px; }
+.period-switch { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(57,37,64,.19); }
+.period-option { min-height: 27px; padding: 0 10px; border: 0; border-radius: 999px; background: transparent; color: rgba(255,255,255,.78); font-size: 12px; font-weight: 600; transition: background .18s ease,color .18s ease; }
+.period-option:hover { color: #fff; }
+.period-option.active { background: rgba(255,255,255,.95); color: #51345e; }
+.date-control { position: relative; min-width: 172px; height: 39px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 8px; border: 1px solid rgba(255,255,255,.43); border-radius: 999px; background: rgba(71,43,80,.16); color: #fff; font-size: 13px; backdrop-filter: blur(7px); }
+.date-control strong { flex: 1; text-align: center; text-transform: capitalize; }
 .date-control button { width: 24px; height: 24px; display: grid; place-items: center; padding: 0 0 3px; border: 0; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 21px; line-height: 1; }
 .date-control button:hover { background: rgba(255,255,255,.34); }
-.date-control input { position: absolute; right: 0; width: 35px; height: 37px; opacity: 0; cursor: pointer; }
+.date-control #date-picker, .date-control #month-picker { position: absolute; top: 0; left: 34px; width: calc(100% - 68px); height: 100%; opacity: 0; cursor: pointer; }
+.date-control #year-picker { position: absolute; top: 3px; left: 34px; width: calc(100% - 68px); height: calc(100% - 6px); padding: 0; border: 0; border-radius: 999px; background: rgba(71,43,80,.01); color: #fff; text-align: center; font-size: 14px; font-weight: 700; }
+.period-hint { min-height: 15px; margin: 0; color: rgba(255,255,255,.78); font-size: 11px; text-align: right; text-transform: capitalize; }
 
 /* Daily totals are immediately below the date header. */
 .summary-section { padding: 22px clamp(18px,5vw,76px) 25px; background: #f1ebf1; }
@@ -134,6 +142,7 @@ a { color: inherit; }
 .custom-fields input:focus, .entry-controls input:focus, .entry-controls select:focus, .goal-form input:focus { border-color: #a272b3; box-shadow: 0 0 0 3px #e9dced; }
 .macro-inputs { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 7px; }
 .entry-controls { display: grid; grid-template-columns: 100px minmax(130px,1fr) auto; align-items: end; gap: 8px; margin-top: 11px; }
+.entry-controls.has-period-date { grid-template-columns: minmax(130px,.8fr) 90px minmax(130px,1fr) auto; }
 .save-entry { min-height: 36px; margin: 0; padding: 0 12px; background: #704389; font-size: 12px; }
 .save-entry:hover:not(:disabled) { background: #86549b; }
 .helper { color: #675d6a; font-size: 12px; line-height: 1.45; }
@@ -159,6 +168,10 @@ a { color: inherit; }
 .meal-total small { color: #b4aab8; font-size: 12px; font-weight: 400; }
 .meal-add { justify-self: end; width: 29px; height: 29px; border: 1px solid rgba(255,255,255,.4); border-radius: 50%; background: transparent; color: #eedaf3; font-size: 18px; }
 .meal-add:hover { background: rgba(255,255,255,.13); }
+.diary-date-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 12px 0 0; padding: 0 2px 3px; border-bottom: 1px solid rgba(255,255,255,.17); color: #f3ebf4; text-transform: capitalize; }
+.diary-date-heading strong { font-size: 14px; font-weight: 700; }
+.diary-date-heading span { color: #c5b9c9; font-size: 12px; white-space: nowrap; }
+.period-empty { margin: 0; padding: 24px; border: 1px dashed rgba(255,255,255,.2); border-radius: 12px; color: #c8bdcb; font-size: 15px; text-align: center; }
 
 /* Goal controls remain close to the diary and history. */
 .orientation-section { display: grid; grid-template-columns: minmax(180px,.6fr) minmax(0,1.7fr); align-items: center; gap: clamp(20px,4vw,58px); padding: 32px clamp(18px,5vw,76px); background: linear-gradient(120deg,#86549d,#a06db3); color: #fff; }
@@ -185,6 +198,9 @@ a { color: inherit; }
 .history-heading h2 { margin: 4px 0 0; color: #312a33; font: 600 clamp(26px,3vw,36px)/1 Manrope,sans-serif; letter-spacing: -.06em; }
 .history-heading > p { margin: 0 0 2px; color: #766d79; font-size: 12px; }
 .history-chart { width: min(100%,1320px); min-height: 165px; display: flex; align-items: flex-end; justify-content: space-around; gap: 9px; margin: auto; padding: 13px 10px; border: 1px solid rgba(55,45,56,.17); border-radius: 2px 13px 2px 13px; background: #f6f1f6; }
+.history-chart.dense { justify-content: flex-start; overflow-x: auto; }
+.history-chart.dense .chart-column { flex: 0 0 30px; }
+.history-chart.dense .chart-value, .history-chart.dense .chart-column small { font-size: 10px; }
 .chart-column { flex: 1; max-width: 90px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .chart-value { height: 13px; color: #6e6371; font-size: 12px; }
 .chart-bar-track { width: 25px; height: 88px; display: flex; align-items: flex-end; overflow: hidden; border-radius: 14px 14px 3px 3px; background: #e8e0e9; }
@@ -255,6 +271,7 @@ a { color: inherit; }
   .meal-total { font-size: 12px; }
   .meal-add { width: 25px; height: 25px; font-size: 16px; }
   .entry-controls { grid-template-columns: 85px minmax(0,1fr); }
+  .entry-controls.has-period-date { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .save-entry { grid-column: 1 / -1; }
   .macro-inputs { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .orientation-section { padding: 23px 15px; }
