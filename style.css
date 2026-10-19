@@ -24,12 +24,13 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 a { color: inherit; }
 [hidden] { display: none !important; }
 .app-shell, .main-area { min-height: 100vh; }
+.app-shell { position: relative; isolation: isolate; background-color: #e8e0e8; background-image: radial-gradient(circle at 74% 78px,transparent 424px,rgba(255,255,255,.15) 425px,transparent 426px),linear-gradient(120deg,#80509a,#a06bb2 53%,#85539c); background-repeat: no-repeat; background-size: 100% 430px,100% 430px; }
 .main-area { margin: 0; }
 .content { width: 100%; max-width: none; margin: 0; padding: 0; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 /* Compact navigation stays visible while the diary is in use. */
-.sidebar { position: sticky; z-index: 10; top: 0; isolation: isolate; overflow: hidden; min-height: 66px; display: flex; align-items: center; gap: clamp(15px,3vw,40px); padding: 10px clamp(18px,4.5vw,66px); border-bottom: 1px solid rgba(255,255,255,.2); background: linear-gradient(120deg,#80509a,#a06bb2 53%,#85539c); color: #fff; backdrop-filter: blur(12px); }
+.sidebar { position: sticky; z-index: 10; top: 0; isolation: isolate; overflow: hidden; min-height: 66px; display: flex; align-items: center; gap: clamp(15px,3vw,40px); padding: 10px clamp(18px,4.5vw,66px); border-bottom: 1px solid rgba(255,255,255,.2); background: transparent; color: #fff; backdrop-filter: blur(12px); }
 .sidebar::before { position: absolute; z-index: -1; inset: 0; content: ''; opacity: .25; background-image: radial-gradient(rgba(255,255,255,.6) .55px,transparent .8px); background-size: 4px 4px; mix-blend-mode: soft-light; pointer-events: none; }
 .brand { display: inline-flex; align-items: center; gap: 0; color: #fff; text-decoration: none; font: 800 20px Manrope,sans-serif; letter-spacing: -1.1px; }
 .brand-dot { color: #352e38; }
@@ -44,9 +45,8 @@ a { color: inherit; }
 .header-backup span { font-size: 17px; }
 
 /* A short branded header keeps the personal controls near the top. */
-.welcome-row { position: relative; isolation: isolate; overflow: hidden; min-height: 250px; display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: 20px; margin: 0; padding: 66px clamp(18px,5vw,76px) 25px; color: #fff; background: linear-gradient(120deg,#80509a,#a06bb2 53%,#85539c); }
+.welcome-row { position: relative; isolation: isolate; overflow: hidden; min-height: 250px; display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: 20px; margin: 0; padding: 66px clamp(18px,5vw,76px) 25px; color: #fff; background: transparent; }
 .welcome-row::before { position: absolute; z-index: -1; inset: 0; content: ''; opacity: .25; background-image: radial-gradient(rgba(255,255,255,.6) .55px,transparent .8px); background-size: 4px 4px; mix-blend-mode: soft-light; }
-.welcome-row::after { position: absolute; z-index: -1; top: -125%; right: -5%; width: min(60vw,740px); aspect-ratio: 1; content: ''; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; box-shadow: 0 0 0 34px rgba(255,255,255,.025),0 0 0 81px rgba(255,255,255,.018); }
 .hero-word { position: absolute; z-index: -1; right: -2vw; bottom: -.17em; color: rgba(247,234,250,.17); text-align: right; white-space: nowrap; font: 800 clamp(135px,24vw,330px)/.8 Manrope,sans-serif; letter-spacing: -.105em; pointer-events: none; }
 .hero-copy { position: relative; z-index: 1; min-width: 0; }
 .hero-kicker, .section-kicker, .metric-label { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
