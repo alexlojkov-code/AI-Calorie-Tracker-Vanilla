@@ -56,9 +56,7 @@ a { color: inherit; }
 .welcome-row h1 { margin: 7px 0 0; color: #fff; font: 700 clamp(38px,5.4vw,64px)/1 Manrope,sans-serif; letter-spacing: -.075em; }
 .title-comma { color: #e8cbea; }
 .subtitle { margin: 7px 0 0; color: rgba(255,255,255,.86); font-size: 14px; line-height: 1.4; }
-.hero-index { position: absolute; z-index: 1; top: 17px; right: clamp(18px,5vw,76px); color: rgba(255,255,255,.72); font-size: 12px; line-height: 1.45; letter-spacing: .08em; text-align: right; }
-.hero-details { position: relative; z-index: 1; display: grid; justify-items: end; gap: 10px; padding-bottom: 2px; }
-.hero-details > p { margin: 0; color: rgba(255,255,255,.84); font-size: 12px; line-height: 1.45; letter-spacing: .07em; text-align: right; }
+.hero-details { position: relative; z-index: 1; display: grid; justify-items: end; padding-bottom: 2px; }
 .date-control { position: relative; height: 39px; display: flex; align-items: center; gap: 10px; padding: 0 9px; border: 1px solid rgba(255,255,255,.43); border-radius: 999px; background: rgba(71,43,80,.16); color: #fff; font-size: 13px; backdrop-filter: blur(7px); }
 .date-control button { width: 24px; height: 24px; display: grid; place-items: center; padding: 0 0 3px; border: 0; border-radius: 50%; background: rgba(255,255,255,.2); color: #fff; font-size: 21px; line-height: 1; }
 .date-control button:hover { background: rgba(255,255,255,.34); }
@@ -94,12 +92,13 @@ a { color: inherit; }
 .metric-card.carbs .metric-icon { background: #eee5f1; color: #805d8d; }
 
 /* The food log is the main working area, with no promotional sections before it. */
-.diary-section { display: grid; grid-template-columns: minmax(210px,.62fr) minmax(0,1.62fr); align-items: start; gap: clamp(24px,4.5vw,68px); padding: 39px clamp(18px,5vw,76px) 43px; background: #272527; color: #f3eef3; }
+.diary-section { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(210px,.62fr) minmax(0,1.62fr); align-items: start; gap: clamp(24px,4.5vw,68px); padding: 42px clamp(18px,5vw,76px) 45px; background: radial-gradient(circle at 0 0,rgba(139,91,158,.17),transparent 36%),linear-gradient(115deg,#272527,#2d292f 68%,#302a33); color: #f3eef3; }
+.diary-section::before { position: absolute; z-index: -1; top: -260px; left: 22%; width: 420px; height: 420px; content: ""; border: 1px solid rgba(222,196,232,.08); border-radius: 50%; box-shadow: 0 0 0 30px rgba(222,196,232,.018),0 0 0 72px rgba(222,196,232,.012); pointer-events: none; }
 .diary-intro { position: sticky; top: 84px; align-self: start; }
-.diary-intro .section-kicker { color: #c7afcf; }
-.diary-intro h2 { margin: 9px 0 9px; color: #eee7ef; font: 500 clamp(38px,4.5vw,58px)/.94 Manrope,sans-serif; letter-spacing: -.075em; }
+.diary-intro .section-kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 3px; color: #d0b3da; }
+.diary-intro h2 { margin: 8px 0 11px; color: #f5eff6; font: 600 clamp(42px,4.1vw,54px)/.98 Manrope,sans-serif; letter-spacing: -.07em; }
 .diary-intro h2 em { color: #bd91c9; font-style: normal; }
-.diary-intro > p { max-width: 300px; margin: 0; color: #c2bac4; font-size: 14px; line-height: 1.5; }
+.diary-intro > p { max-width: 320px; margin: 0; color: #c8c0ca; font-size: 15px; line-height: 1.55; }
 .primary { min-height: 41px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; padding: 0 16px; border: 0; border-radius: 999px; background: #9c6ab0; color: #fff; font-size: 13px; font-weight: 700; transition: .18s ease; }
 .primary:hover:not(:disabled) { transform: translateY(-2px); background: #b17bc4; }
 .primary:disabled { opacity: .55; cursor: not-allowed; }
@@ -140,8 +139,9 @@ a { color: inherit; }
 .save-entry:hover:not(:disabled) { background: #86549b; }
 .helper { color: #675d6a; font-size: 12px; line-height: 1.45; }
 .entry-form > .helper { margin: 8px 0 0; }
-.meal-list { display: grid; gap: 0; margin-top: 2px; border-top: 1px solid rgba(255,255,255,.25); counter-reset: meal; }
-.meal-card { display: grid; grid-template-columns: minmax(104px,.48fr) minmax(0,1.55fr) 80px 34px; align-items: center; gap: 10px; min-width: 0; padding: 13px 0; border: 0; border-bottom: 1px solid rgba(255,255,255,.2); background: transparent; counter-increment: meal; }
+.meal-list { display: grid; gap: 9px; margin-top: 2px; counter-reset: meal; }
+.meal-card { display: grid; grid-template-columns: minmax(104px,.48fr) minmax(0,1.55fr) 80px 34px; align-items: center; gap: 10px; min-width: 0; padding: 14px; border: 1px solid rgba(255,255,255,.11); border-radius: 14px; background: rgba(255,255,255,.035); counter-increment: meal; transition: background .18s ease,border-color .18s ease; }
+.meal-card:hover { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.065); }
 .meal-icon { display: none; }
 .meal-meta { display: flex; flex-direction: column; gap: 4px; padding: 0; }
 .meal-meta b { color: #d2aadf; font-size: 13px; font-weight: 700; text-transform: uppercase; }
@@ -201,7 +201,7 @@ a { color: inherit; }
 .notice.error { border-color: #efd7d0; background: #f9ece8; color: #a05244; }
 
 /* Keep small labels readable on the dashboard and in forms. */
-.hero-index, .hero-details > p, .hero-kicker, .section-kicker, .metric-label, .calorie-foot, .metric-card small,
+.hero-kicker, .section-kicker, .metric-label, .calorie-foot, .metric-card small,
 .selected-food small, .custom-fields label, .entry-controls label, .goal-form label, .food-result small,
 .food-kcal, .meal-meta small, .entry-name small, .entry-value small, .meal-total small, .chart-value,
 .chart-column small, .footer, .footer > a:last-child { font-size: 12px; }
@@ -225,13 +225,11 @@ a { color: inherit; }
   .welcome-row { min-height: 222px; grid-template-columns: minmax(0,1fr) auto; gap: 12px; padding: 57px 17px 18px; }
   .welcome-row::after { top: -90%; right: -48%; width: 90vw; }
   .hero-word { right: -7vw; bottom: -.08em; font-size: 28vw; }
-  .hero-index { top: 9px; right: 17px; font-size: 12px; }
   .hero-kicker { margin-bottom: 7px; font-size: 12px; }
   .date-caption { font-size: 13px; }
   .welcome-row h1 { font-size: clamp(34px,7vw,51px); }
   .subtitle { max-width: 390px; font-size: 13px; }
   .hero-details { gap: 8px; }
-  .hero-details > p { font-size: 12px; }
   .date-control { height: 35px; gap: 6px; font-size: 12px; }
   .date-control button { width: 22px; height: 22px; }
   .summary-section { padding: 18px 14px 20px; }
@@ -249,10 +247,10 @@ a { color: inherit; }
   .diary-section { grid-template-columns: 1fr; gap: 20px; padding: 27px 15px 31px; }
   .diary-intro { position: relative; top: auto; display: grid; grid-template-columns: 1fr auto; align-items: end; column-gap: 14px; }
   .diary-intro .section-kicker, .diary-intro h2, .diary-intro > p { grid-column: 1; }
-  .diary-intro h2 { margin: 4px 0 3px; font-size: 36px; }
+  .diary-intro h2 { margin: 4px 0 5px; font-size: 38px; }
   .diary-intro > p { max-width: 480px; font-size: 13px; }
   .diary-intro > .primary { grid-column: 2; grid-row: 1 / 4; margin: 0; min-height: 38px; padding: 0 12px; font-size: 12px; }
-  .meal-card { grid-template-columns: 90px minmax(0,1fr) 68px 29px; gap: 7px; padding: 12px 0; }
+  .meal-card { grid-template-columns: 90px minmax(0,1fr) 68px 29px; gap: 7px; padding: 12px 10px; }
   .meal-meta b { font-size: 12px; }
   .meal-meta small { font-size: 12px; }
   .meal-entry { font-size: 12px; }
@@ -287,10 +285,8 @@ a { color: inherit; }
   .header-backup { grid-column: 2; grid-row: 1; }
   .welcome-row { min-height: 235px; grid-template-columns: 1fr; align-items: end; padding: 77px 14px 13px; }
   .hero-word { right: -12vw; bottom: -.07em; font-size: 34vw; }
-  .hero-index { top: 10px; right: 14px; font-size: 12px; }
   .hero-copy { padding-bottom: 6px; }
-  .hero-details { grid-template-columns: 1fr auto; align-items: end; justify-items: start; }
-  .hero-details > p { text-align: left; }
+  .hero-details { grid-template-columns: 1fr; align-items: end; justify-items: end; }
   .date-control { justify-self: end; }
   .diary-intro { grid-template-columns: minmax(0,1fr) auto; }
   .diary-intro > .primary { max-width: 137px; white-space: nowrap; }
@@ -302,7 +298,6 @@ a { color: inherit; }
   .nav { gap: 10px; }
   .nav-item { font-size: 12px; }
   .hero-kicker { font-size: 12px; }
-  .hero-details > p { max-width: 130px; font-size: 12px; }
   .date-control { gap: 4px; padding-inline: 6px; font-size: 12px; }
   .summary-heading > p { font-size: 12px; }
   .metric-card { padding: 9px; }
