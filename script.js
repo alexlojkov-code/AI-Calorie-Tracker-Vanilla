@@ -261,7 +261,7 @@
     $('#crumb-title').textContent = view === 'today' ? 'Мой день' : 'История';
     $('#page-title').innerHTML = view === 'today' ? (selectedDate === localISODate() ? 'Добрый день<span class="title-comma">,</span>' : displayDate(selectedDate, { day: 'numeric', month: 'long' })) : 'Ваша история<span class="title-comma">.</span>';
     $('#date-label').parentElement.hidden = view === 'history';
-    document.querySelector('.subtitle').textContent = view === 'today' ? 'Бережно отмечайте то, что поддерживает вас.' : 'Ваши записи за неделю, без аккаунта и облачной синхронизации.';
+    document.querySelector('.subtitle').textContent = view === 'today' ? 'Ваш дневник питания — записи и итоги на одном экране.' : 'Последние 7 дней с калорийностью по каждой дате.';
     if (view === 'history') renderHistory();
   }
 
